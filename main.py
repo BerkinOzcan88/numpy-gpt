@@ -10,11 +10,11 @@ text = df["text"][0]
     
 tokenizer = Tokenizer()
 
-tokens = tokenizer.tokenize(text)
+training_tokens = tokenizer.encode(text)
 
-print(len(tokens))
+tokenizer.merge_top_pairs(training_tokens, 300)
 
-tokens = tokenizer.merge_top_pairs(tokens, 400)
 
-print(len(tokens))
+
+
 
