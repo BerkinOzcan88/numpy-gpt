@@ -5,14 +5,14 @@ class EmbeddingLayer:
         self.embeddings = np.random.randn(vocab_size, embedding_dim) * 0.02
         self.inputs = None
         
-        self.embedding_grads = np.zeros(self.embeddings.shape)
+        self.embedding_grads = np.zeros_like(self.embeddings)
         
     def forward(self, inputs: np.ndarray)-> np.ndarray:
         self.inputs = inputs
         return self.embeddings[inputs]
     
     def backward(self, prev_grads: np.ndarray)-> None:
-        embedding_grads = np.zeros(self.embeddings.shape)
+        embedding_grads = np.zeros_like(self.embeddings)
         
         np.add.at(embedding_grads, self.inputs, prev_grads)
         
@@ -23,7 +23,7 @@ class PositionalEmbeddingLayer:
     def __init__(self, max_sequence_length: int, embedding_dim: int)-> None:
         self.pos_embeddings = np.random.randn(max_sequence_length, embedding_dim) * 0.02
         
-        self.pos_embedding_grads = np.zeros(self.pos_embeddings.shape)
+        self.pos_embedding_grads = np.zeros_like(self.pos_embeddings)
         
     def forward(self, inputs: np.ndarray)-> np.ndarray:
         sequence_length = inputs.shape[1]

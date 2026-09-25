@@ -1,4 +1,3 @@
-
 class Tokenizer:
     def __init__(self):
         self.vocab = {idx: bytes([idx]) for idx in range(256)}
