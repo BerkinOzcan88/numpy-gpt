@@ -1,1 +1,5 @@
 wikipedia-tr/data/
+
+__pycache__/
+*.pyc
+tempCodeRunnerFile.py
