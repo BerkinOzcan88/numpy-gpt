@@ -2,11 +2,11 @@ import numpy as np
 from activation import softmax
 
 class CausalSelfAttentionLayer:
-    def __init__(self, embedding_dim: int)-> None:
-        self.W_q: np.ndarray  = np.random.randn(embedding_dim,embedding_dim) * 0.02
-        self.W_k: np.ndarray  = np.random.randn(embedding_dim,embedding_dim) * 0.02
-        self.W_v: np.ndarray  = np.random.randn(embedding_dim,embedding_dim) * 0.02
-        self.W_o: np.ndarray  = np.random.randn(embedding_dim,embedding_dim) * 0.02
+    def __init__(self, C: int)-> None:
+        self.W_q: np.ndarray  = np.random.randn(C,C) * 0.02
+        self.W_k: np.ndarray  = np.random.randn(C,C) * 0.02
+        self.W_v: np.ndarray  = np.random.randn(C,C) * 0.02
+        self.W_o: np.ndarray  = np.random.randn(C,C) * 0.02
         
         
         self.W_q_grads: np.ndarray  = np.zeros_like(self.W_q)

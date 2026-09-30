@@ -1,7 +1,7 @@
 import numpy as np
 
 class LayerNorm:
-    def __init__(self, eps: float, C)-> None:
+    def __init__(self, eps: float, C: int)-> None:
         self.eps = eps
         self.C = C
         self.gamma = np.ones(C)
