@@ -3,8 +3,8 @@ from feedforward import FeedForward
 from attention import CausalSelfAttentionLayer
 from layernorm import LayerNorm
 
-class TransformerModule:
-    def __init__(self, C: int, eps: float)-> None:
+class TransformerBlock:
+    def __init__(self, eps: float, C: int)-> None:
         self.attention = CausalSelfAttentionLayer(C)
         self.attention_norm = LayerNorm(eps, C)
         

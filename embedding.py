@@ -1,8 +1,8 @@
 import numpy as np
 
-class EmbeddingLayer:
-    def __init__(self, vocab_size: int, embedding_dim: int)-> None:
-        self.embeddings = np.random.randn(vocab_size, embedding_dim) * 0.02
+class TokenEmbedding:
+    def __init__(self, vocab_size: int, C: int)-> None:
+        self.embeddings = np.random.randn(vocab_size, C) * 0.02
         self.inputs = None
         
         self.embedding_grads = np.zeros_like(self.embeddings)
@@ -19,14 +19,14 @@ class EmbeddingLayer:
         self.embedding_grads += embedding_grads
         
 
-class PositionalEmbeddingLayer:
-    def __init__(self, max_sequence_length: int, embedding_dim: int)-> None:
-        self.pos_embeddings = np.random.randn(max_sequence_length, embedding_dim) * 0.02
+class PositionalEmbedding:
+    def __init__(self, context_len: int, C: int)-> None:
+        self.pos_embeddings = np.random.randn(context_len, C) * 0.02
         
         self.pos_embedding_grads = np.zeros_like(self.pos_embeddings)
         
     def forward(self, inputs: np.ndarray)-> np.ndarray:
-        sequence_length = inputs.shape[1]
+        sequence_length = inputs.shape[-1]
         return self.pos_embeddings[:sequence_length]
     
     def backward(self, prev_grads: np.ndarray)-> None:
