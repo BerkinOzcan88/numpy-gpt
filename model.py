@@ -10,7 +10,7 @@ class Model:
         self.pos_embedding = PositionalEmbedding(context_len, C)
         self.transformer_blocks = [TransformerBlock(eps, C) for _ in range(num_layers)]
         self.final_norm = LayerNorm(eps, C)
-        self.out_projection = LinearLayer(C, vocab_size)
+        self.lm_head = LinearLayer(C, vocab_size)
 
     def forward(self, token_ids: np.ndarray)-> np.ndarray:
         token_embeddings = self.token_embedding.forward(token_ids)
@@ -24,10 +24,11 @@ class Model:
             
         norm_x = self.final_norm.forward(x)
         
-        logits = self.out_projection.forward(norm_x)
+        logits = self.lm_head.forward(norm_x)
         
         return logits
 
-        
+    def backward(self, prev_grads: np.ndarray)-> np.ndarray:
+        pass     
         
 

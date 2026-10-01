@@ -34,7 +34,7 @@ class CausalSelfAttentionLayer:
         
         scores = (Q @ K.transpose(0,2,1)) / np.sqrt(C)
         
-        mask = np.tril(np.ones(T,T), dtype=bool)
+        mask = np.tril(np.ones((T,T)))
         
         scores = np.where(mask, scores, -np.inf)  
         
