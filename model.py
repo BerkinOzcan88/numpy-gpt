@@ -28,7 +28,15 @@ class Model:
         
         return logits
 
-    def backward(self, prev_grads: np.ndarray)-> np.ndarray:
-        pass     
+    def backward(self, prev_grads: np.ndarray)-> None:
+        lm_head_grads = self.lm_head.backward(prev_grads)  
+        norm_x_grads = self.final_norm.backward(lm_head_grads)
+        
+        x_grads = norm_x_grads
+        for block in reversed(self.transformer_blocks):
+            x_grads = block.backward(x_grads)
+            
+        self.token_embedding.backward(x_grads)
+        self.pos_embedding.backward(x_grads)
         
 
