@@ -30,7 +30,8 @@ class Tokenizer:
                 i += 1
         return new_tokens        
 
-    def merge_top_pairs(self, token_ids: list[int], vocab_size: int)-> list[int]:
+    def merge_top_pairs(self, text: str, vocab_size: int)-> list[int]:
+        token_ids = self.encode(text)
         new_token_ids = token_ids.copy()
         num_merges = vocab_size - 256
         

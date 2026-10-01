@@ -1,5 +1,10 @@
+import numpy as np
 import pandas as pd
 from tokenizer import Tokenizer
+
+VOCAB_SIZE = 1000
+CONTEXT_LEN = 32
+BATCH_SIZE = 8
 
 DATA_PATH = r"C:\Users\Lenovo\Desktop\Projects\gpt\wikipedia-tr\data\train-00001.parquet"
 
@@ -10,8 +15,31 @@ text = ". ".join(df["text"][:5].astype(str))
     
 tokenizer = Tokenizer()
 
-training_tokens = tokenizer.encode(text)
+tokens = tokenizer.merge_top_pairs(text, VOCAB_SIZE)
 
-tokenizer.merge_top_pairs(training_tokens, 1000)
+tokens = np.array(tokens, dtype=np.int64)
 
-print(tokenizer.vocab)
+n = int(0.9 * len(tokens))
+
+training_data = tokens[:n]
+val_data = tokens[n:]
+
+def get_batch(data):
+    max_start = len(data) - CONTEXT_LEN - 1
+    
+    starts = np.random.randint(0, max_start, size=BATCH_SIZE)
+    
+    x = np.stack([
+        data[i:i + CONTEXT_LEN]
+        for i in starts
+    ])
+
+    y = np.stack([
+        data[i + 1:i + CONTEXT_LEN + 1]
+        for i in starts
+    ])
+
+    return x, y
+
+
+
