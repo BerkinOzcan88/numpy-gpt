@@ -18,6 +18,15 @@ class TokenEmbedding:
         
         self.embedding_grads += embedding_grads
         
+    def parameters(self)-> dict:
+        return [
+        {
+            "value": self.embeddings,
+            "grad": self.embedding_grads,
+            "weight_decay": True
+        }
+    ]
+        
 
 class PositionalEmbedding:
     def __init__(self, context_len: int, C: int)-> None:
@@ -34,6 +43,15 @@ class PositionalEmbedding:
         
         pos_grads = np.sum(prev_grads, axis=0)
         self.pos_embedding_grads[:sequence_length] += pos_grads
+        
+    def parameters(self)-> list[dict]:
+        return [
+        {
+            "value": self.pos_embeddings,
+            "grad": self.pos_embedding_grads,
+            "weight_decay": True
+        }
+    ]
         
     
 

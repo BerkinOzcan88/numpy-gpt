@@ -4,12 +4,12 @@ from attention import CausalSelfAttentionLayer
 from layernorm import LayerNorm
 
 class TransformerBlock:
-    def __init__(self, eps: float, C: int)-> None:
+    def __init__(self, C: int)-> None:
         self.attention = CausalSelfAttentionLayer(C)
-        self.attention_norm = LayerNorm(eps, C)
+        self.attention_norm = LayerNorm(C)
         
         self.feedforward = FeedForward(C)
-        self.feedforward_norm = LayerNorm(eps, C)
+        self.feedforward_norm = LayerNorm(C)
         
     
     def forward(self, inputs: np.ndarray)-> np.ndarray:
@@ -37,4 +37,14 @@ class TransformerBlock:
         d_input = d_x_attn + d_attn_residual
         
         return d_input
+    
+    def parameters(self)-> list[dict]:
+        params = []
+        
+        params += self.attention.parameters()
+        params += self.attention_norm.parameters()
+        params += self.feedforward.parameters()
+        params += self.feedforward_norm.parameters()
+        
+        return params
         

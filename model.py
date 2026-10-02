@@ -4,12 +4,12 @@ from transformer import TransformerBlock
 from layernorm import LayerNorm
 from linear import LinearLayer
 
-class Model:
-    def __init__(self, num_layers: int, vocab_size: int, C: int, context_len: int, eps: float)-> None:
+class GPT:
+    def __init__(self, num_layers: int, vocab_size: int, C: int, context_len: int)-> None:
         self.token_embedding = TokenEmbedding(vocab_size, C)
         self.pos_embedding = PositionalEmbedding(context_len, C)
-        self.transformer_blocks = [TransformerBlock(eps, C) for _ in range(num_layers)]
-        self.final_norm = LayerNorm(eps, C)
+        self.transformer_blocks = [TransformerBlock(C) for _ in range(num_layers)]
+        self.final_norm = LayerNorm(C)
         self.lm_head = LinearLayer(C, vocab_size)
 
     def forward(self, token_ids: np.ndarray)-> np.ndarray:
@@ -38,5 +38,20 @@ class Model:
             
         self.token_embedding.backward(x_grads)
         self.pos_embedding.backward(x_grads)
+    
+    
+    def parameters(self)-> list[dict]:
+        params = []
+
+        params += self.token_embedding.parameters()
+        params += self.pos_embedding.parameters()
+
+        for block in self.transformer_blocks:
+            params += block.parameters()
+
+        params += self.final_norm.parameters()
+        params += self.lm_head.parameters()
+
+        return params
         
 

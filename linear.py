@@ -22,3 +22,18 @@ class LinearLayer:
         d_input = prev_grads @ self.W.T
         
         return d_input
+    
+    def parameters(self)-> list[dict]:
+        return [
+        {
+            "value": self.W,
+            "grad": self.W_grads,
+            "wd": True
+        },
+        
+        {
+            "value": self.b,
+            "grad": self.b_grads,
+            "wd": False
+        }
+    ]

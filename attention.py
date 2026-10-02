@@ -52,7 +52,7 @@ class CausalSelfAttentionLayer:
         
         
         d_attention_output = prev_grads @ self.W_o.T
-        self.W_o_grads = np.reshape(self.attention_output, (B*T,C)).T @ np.reshape(prev_grads, (B*T,C))
+        self.W_o_grads[:] = np.reshape(self.attention_output, (B*T,C)).T @ np.reshape(prev_grads, (B*T,C))
         
         d_attention_weights = d_attention_output @ self.V.transpose(0,2,1)
         d_V = self.attention_weights.transpose(0,2,1) @ d_attention_output
@@ -63,9 +63,9 @@ class CausalSelfAttentionLayer:
         d_Q = (d_scores / np.sqrt(C)) @ self.K
         d_K = (d_scores / np.sqrt(C)).transpose(0,2,1) @ self.Q
         
-        self.W_q_grads = np.reshape(self.inputs,(B*T, C)).T @ np.reshape(d_Q, (B*T, C))
-        self.W_k_grads = np.reshape(self.inputs,(B*T, C)).T @ np.reshape(d_K, (B*T, C))
-        self.W_v_grads = np.reshape(self.inputs,(B*T, C)).T @ np.reshape(d_V, (B*T, C))
+        self.W_q_grads[:] = np.reshape(self.inputs,(B*T, C)).T @ np.reshape(d_Q, (B*T, C))
+        self.W_k_grads[:] = np.reshape(self.inputs,(B*T, C)).T @ np.reshape(d_K, (B*T, C))
+        self.W_v_grads[:] = np.reshape(self.inputs,(B*T, C)).T @ np.reshape(d_V, (B*T, C))
         
         d_input_Q = d_Q @ self.W_q.T
         d_input_K = d_K @ self.W_k.T
@@ -74,3 +74,30 @@ class CausalSelfAttentionLayer:
         d_input = d_input_Q + d_input_K + d_input_V
         
         return d_input
+    
+    def parameters(self) -> list[dict]:
+        return [
+        {
+            "value": self.W_q,
+            "grad": self.W_q_grads,
+            "wd": True
+        },
+        
+        {
+            "value": self.W_k,
+            "grad": self.W_k_grads,
+            "wd": True
+        },
+        
+        {
+            "value": self.W_v,
+            "grad": self.W_v_grads,
+            "wd": True
+        },
+        
+        {
+            "value": self.W_o,
+            "grad": self.W_o_grads,
+            "wd": True
+        }
+    ]

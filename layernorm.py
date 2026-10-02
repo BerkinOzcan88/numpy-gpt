@@ -1,7 +1,7 @@
 import numpy as np
 
 class LayerNorm:
-    def __init__(self, eps: float, C: int)-> None:
+    def __init__(self, C: int, eps=1e-8 )-> None:
         self.eps = eps
         self.C = C
         self.gamma = np.ones(C)
@@ -61,6 +61,21 @@ class LayerNorm:
         d_input = d_a_total + d_input_mean
         
         return d_input
+    
+    def parameters(self)-> list[dict]:
+        return [
+        {
+            "value": self.gamma,
+            "grad": self.gamma_grads,
+            "wd": False
+        },
+        
+        {
+            "value": self.beta,
+            "grad": self.beta_grads,
+            "wd": False
+        }
+    ]
         
         
         
