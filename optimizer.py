@@ -2,7 +2,7 @@ import numpy as np
 
 
 class AdamW:
-    def __int__(self, parameters, lr=1e-3, beta1=0.9, beta2=0.999, eps= 1e-8, wd=0.01)->None:
+    def __init__(self, parameters, lr=1e-3, beta1=0.9, beta2=0.999, eps= 1e-8, wd=0.01)->None:
         self.parameters = parameters
 
         self.lr = lr

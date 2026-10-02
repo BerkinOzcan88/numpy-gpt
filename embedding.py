@@ -23,7 +23,7 @@ class TokenEmbedding:
         {
             "value": self.embeddings,
             "grad": self.embedding_grads,
-            "weight_decay": True
+            "wd": True
         }
     ]
         
@@ -49,7 +49,7 @@ class PositionalEmbedding:
         {
             "value": self.pos_embeddings,
             "grad": self.pos_embedding_grads,
-            "weight_decay": True
+            "wd": True
         }
     ]
         

@@ -7,8 +7,8 @@ class LayerNorm:
         self.gamma = np.ones(C)
         self.beta = np.zeros(C)
         
-        self.gamma_grads = None
-        self.beta_grads = None
+        self.gamma_grads = np.zeros_like(self.gamma)
+        self.beta_grads = np.zeros_like(self.beta)
         
         self.inputs = None
         self.mean = None

@@ -5,8 +5,8 @@ class LinearLayer:
         self.W = np.random.randn(C_in, C_out) * np.sqrt(2 / C_in)
         self.b = np.zeros(C_out)
         
-        self.W_grads = None
-        self.b_grads = None
+        self.W_grads = np.zeros_like(self.W)
+        self.b_grads = np.zeros_like(self.b)
         
         self.inputs = None
         
