@@ -1,5 +1,15 @@
-wikipedia-tr/data/
+# Downloaded dataset (kept locally, not distributed with the source)
+/wikipedia-tr/
+*.parquet
 
+# Python and notebook caches
 __pycache__/
-*.pyc
+*.py[cod]
+.ipynb_checkpoints/
+
+# Local virtual environments
+.venv/
+venv/
+
+# Editor scratch files
 tempCodeRunnerFile.py
