@@ -10,7 +10,7 @@ class GPT:
         self.pos_embedding = PositionalEmbedding(context_len, C)
         self.transformer_blocks = [TransformerBlock(C) for _ in range(num_layers)]
         self.final_norm = LayerNorm(C)
-        self.lm_head = LinearLayer(C, vocab_size)
+        self.lm_head = LinearLayer(C, vocab_size, init_std=0.02)
         
         self.context_len = context_len
         self.vocab_size = vocab_size

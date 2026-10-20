@@ -39,8 +39,8 @@ class LayerNorm:
         
     def backward(self, prev_grads: np.ndarray)-> np.ndarray:
         
-        self.beta_grads = np.sum(prev_grads, axis=(0,1))
-        self.gamma_grads = np.sum(prev_grads * self.norm_inputs, axis=(0,1))
+        self.beta_grads[:] = np.sum(prev_grads, axis=(0,1))
+        self.gamma_grads[:] = np.sum(prev_grads * self.norm_inputs, axis=(0,1))
         
         d_norm_inputs = prev_grads * self.gamma
         

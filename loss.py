@@ -25,4 +25,5 @@ class CrossEntropyLoss:
         
         grads[np.arange(B)[:,None], np.arange(T)[None,:], self.targets] -=1
         
-        return grads
+        # forward returns the mean over B*T positions, so scale the gradient to match
+        return grads / (B * T)
